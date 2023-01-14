@@ -13,7 +13,9 @@ public class Main {
         // сортируем
         int[] sortedArray = numbersFromFile.stream().mapToInt(i -> i).toArray();
         MergeSorting.mergeSorting(sortedArray, numbersFromFile.size());
-        System.out.println(Arrays.toString(sortedArray));
+
+        // записываем в выходной файл
+        writeSortedData("src/main/resources/out.txt", sortedArray);
     }
 
     public static void readData(String[] args) {
@@ -29,6 +31,17 @@ public class Main {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public static void writeSortedData(String fileName, int[] sortedArray) {
+        String line;
+        try (BufferedWriter writerToFile = new BufferedWriter(new FileWriter(fileName))) {
+            for (int i = 0; i < sortedArray.length; i++) {
+                writerToFile.write(String.valueOf(sortedArray[i] + "\n"));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }
