@@ -12,7 +12,8 @@ public class Main {
 
         // сортируем
         int[] sortedArray = numbersFromFile.stream().mapToInt(i -> i).toArray();
-        MergeSorting.mergeSorting(sortedArray, numbersFromFile.size());
+        MergeSorting mergeSorting = new MergeSorting("-d");
+        mergeSorting.mergeSorting(sortedArray, sortedArray.length);
 
         // записываем в выходной файл
         writeSortedData("src/main/resources/out.txt", sortedArray);

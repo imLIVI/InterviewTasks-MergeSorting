@@ -1,6 +1,12 @@
 import java.util.Arrays;
 
 public class MergeSorting {
+    private String sortingFlag;
+
+    MergeSorting(String sortingFlag) {
+        this.sortingFlag = sortingFlag;
+    }
+
     /**
      * Program invariant: the array after "merge" (function) - sorted
      * <p>
@@ -20,7 +26,7 @@ public class MergeSorting {
      * <p>
      * But using memory = O(n) (for function "merge")
      */
-    public static void mergeSorting(int[] array, int len) {
+    public void mergeSorting(int[] array, int len) {
 
         // Basic case
         if (len < 2) {
@@ -50,11 +56,13 @@ public class MergeSorting {
         merge(array, left, right, middle, len - middle);
     }
 
-    private static void merge(int[] array, int[] left, int[] right, int lenL, int lenR) {
+    private void merge(int[] array, int[] left, int[] right, int lenL, int lenR) {
         int l = 0, r = 0, m = 0;
 
         while (l < lenL && r < lenR) {
-            if (left[l] <= right[r])
+            if ((sortingFlag == "-a" || sortingFlag == "") && left[l] <= right[r])
+                array[m++] = left[l++];
+            else if (sortingFlag == "-d" && left[l] >= right[r])
                 array[m++] = left[l++];
             else
                 array[m++] = right[r++];
