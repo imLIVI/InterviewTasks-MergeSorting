@@ -60,9 +60,9 @@ public class MergeSorting {
         int l = 0, r = 0, m = 0;
 
         while (l < lenL && r < lenR) {
-            if ((sortingFlag == "-a" || sortingFlag == "") && left[l] <= right[r])
+            if ((sortingFlag.equals("-a") || sortingFlag.equals("")) && left[l] <= right[r])
                 array[m++] = left[l++];
-            else if (sortingFlag == "-d" && left[l] >= right[r])
+            else if (sortingFlag.equals("-d") && left[l] >= right[r])
                 array[m++] = left[l++];
             else
                 array[m++] = right[r++];

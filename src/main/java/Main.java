@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Main {
     public static List<Integer> numbersFromFile = new ArrayList<>();
-    public static String sortingFlag;
+    public static String sortingFlag = "";
     public static String dataType;
     public static String nameOutputFile;
 
