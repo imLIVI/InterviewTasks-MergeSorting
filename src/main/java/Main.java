@@ -1,8 +1,8 @@
+import exceptions.InvalidFileName;
+
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class Main {
     public static List<Integer> numbersFromFile = new ArrayList<>();
@@ -31,40 +31,43 @@ public class Main {
         }
         dataType = args[counter++];
         nameOutputFile = args[counter++];
+
+        checkFileName(nameOutputFile);
+
         for (int i = counter; i < args.length; i++) {
             readData(args[i]);
         }
     }
 
+    // CHECK: INVALID FILE NAME [*.txt]
     public static void checkFileName(String fileName) {
-        if (!fileName.matches("\\*.txt"))
-            throw new InvalidFileName(fileName);
+        try {
+            if (!fileName.matches("[0-9a-z_]+\\.txt$"))
+                throw new InvalidFileName(fileName);
+        } catch (InvalidFileName e) {
+        }
     }
 
     public static void readData(String nameInputFile) {
+        checkFileName(nameInputFile);
         try (BufferedReader readerOfFiles = new BufferedReader(new FileReader(nameInputFile))) {
-            if (dataType.equals("-i")) {
-                int line;
-                while ((line = readerOfFiles.read()) > 0) {
-                    numbersFromFile.add(line);
-                }
-            } else {
-                // CHECK: INVALID DATA TYPE
-                if (!dataType.equals("-s")) {
-                    System.out.println("[WARNING] Invalid data type");
-                }
+            // CHECK: INVALID DATA TYPE
+            if (dataType.equals("-s") || dataType.equals("-i")) {
                 String line;
                 while ((line = readerOfFiles.readLine()) != null) {
                     numbersFromFile.add(Integer.parseInt(line));
                 }
-            }
+            } else
+                System.out.println("[WARNING] Invalid data type");
         } catch (FileNotFoundException e) {
             // CHECK: INPUT FILE NOT FOUND
             System.out.println("[ERROR] The input file: " + nameInputFile + " wasn`t found. " +
                     "Please check the path and run the program again");
-        } catch (IOException e) {
+        } catch (
+                IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public static void writeSortedData(String fileName, int[] sortedArray) {
