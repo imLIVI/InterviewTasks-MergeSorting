@@ -56,7 +56,7 @@ public class MergeSorting {
         merge(array, left, right, middle, len - middle);
     }
 
-    private void merge(int[] array, int[] left, int[] right, int lenL, int lenR) {
+    public void merge(int[] array, int[] left, int[] right, int lenL, int lenR) {
         int l = 0, r = 0, m = 0;
 
         while (l < lenL && r < lenR) {
