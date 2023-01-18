@@ -1,4 +1,5 @@
-import exceptions.InvalidFileName;
+import exceptions.InvalidFileNameException;
+import exceptions.SpaceInStringException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -43,8 +44,8 @@ public class Main {
     public static void checkFileName(String fileName) {
         try {
             if (!fileName.matches("[0-9a-z_]+\\.txt$"))
-                throw new InvalidFileName(fileName);
-        } catch (InvalidFileName e) {
+                throw new InvalidFileNameException(fileName);
+        } catch (InvalidFileNameException e) {
         }
     }
 
@@ -54,8 +55,18 @@ public class Main {
             // CHECK: INVALID DATA TYPE
             if (dataType.equals("-s") || dataType.equals("-i")) {
                 String line;
+                int counterLine = 0;
                 while ((line = readerOfFiles.readLine()) != null) {
-                    numbersFromFile.add(Integer.parseInt(line));
+                    counterLine++;
+                    // CHECK: SPACE IN THE LINE
+                    if (line.matches("[\\d]")) {
+                        numbersFromFile.add(Integer.parseInt(line));
+                    } else {
+                        try {
+                            throw new SpaceInStringException(nameInputFile, counterLine);
+                        } catch (SpaceInStringException e) {
+                        }
+                    }
                 }
             } else
                 System.out.println("[WARNING] Invalid data type");
@@ -63,8 +74,7 @@ public class Main {
             // CHECK: INPUT FILE NOT FOUND
             System.out.println("[ERROR] The input file: " + nameInputFile + " wasn`t found. " +
                     "Please check the path and run the program again");
-        } catch (
-                IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
